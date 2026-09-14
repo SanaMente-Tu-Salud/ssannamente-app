@@ -345,7 +345,8 @@
   </style>
 </head>
 <body>
-    <!-- Ventana de Registro Clínico Inicial (Edad y Género) -->
+
+    <!-- Ventana de Registro Clínico Inicial -->
     <div id="patient-modal" style="background: #0b0f19; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999999; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;">
         <div style="background: #131b2e; border: 1px solid #1e293b; padding: 25px; border-radius: 12px; width: 90%; max-width: 400px; color: #f8fafc; font-family: Arial, sans-serif;">
             <h2 style="color: #10b981; margin-top: 0; font-size: 1.4rem; text-align: center;">SanaMente PRO</h2>
@@ -359,7 +360,7 @@
 
                 <div style="margin-bottom: 15px;">
                     <label style="display: block; font-size: 0.85rem; margin-bottom: 5px;">Edad (Obligatorio):</label>
-                    <input type="number" id="p-age" required placeholder="Ej. 16" style="width: 100%; padding: 10px; background: #0b0f19; border: 1px solid #334155; color: #fff; border-radius: 6px;">
+                    <input type="number" id="p-age" min="1" max="120" required placeholder="Ej. 16" style="width: 100%; padding: 10px; background: #0b0f19; border: 1px solid #334155; color: #fff; border-radius: 6px;">
                 </div>
 
                 <div style="margin-bottom: 20px;">
@@ -377,7 +378,108 @@
         </div>
     </div>
 
-<script>
+    <!-- Pantalla de Carga de IA Médica -->
+    <div id="loading-screen" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(11, 15, 25, 0.95); z-index: 99999999; flex-direction: column; justify-content: center; align-items: center; color: #fff; text-align: center; padding: 20px;">
+        <div style="font-size: 2.5rem; margin-bottom: 15px;">🧬</div>
+        <h3 style="color: #10b981; margin: 0 0 10px 0;">Procesando Variables Biométricas...</h3>
+        <p style="font-size: 0.85rem; color: #94a3b8; max-width: 300px;">Cruzando datos etarios con patrones de triaje clínico inteligente.</p>
+    </div>
+
+    <div class="main-container">
+      <header>
+        <div class="logo">🌱 SanaMente PRO</div>
+        <div class="subtitle">Sistema clínico ampliado con triaje preventivo y detección de urgencias médicas</div>
+        <div id="info-paciente" style="font-size: 0.85rem; color: var(--primary); margin-top: 10px; font-weight: 600;"></div>
+      </header>
+
+      <h2 class="section-title">1. Hábitos y Estilo de Vida Diario</h2>
+      <div class="grid">
+        <div class="card" onclick="toggleItem(this, 'vapeo', false)"><div class="card-icon">🚬</div><div class="card-text">Vapeo / Tabaco Frecuente</div></div>
+        <div class="card" onclick="toggleItem(this, 'energizantes', false)"><div class="card-icon">⚡</div><div class="card-text">Energizantes y Cafeína Excesiva</div></div>
+        <div class="card" onclick="toggleItem(this, 'desvelo', false)"><div class="card-icon">🌙</div><div class="card-text">Dormir menos de 6 Horas</div></div>
+        <div class="card" onclick="toggleItem(this, 'alcohol', false)"><div class="card-icon">🍺</div><div class="card-text">Consumo Frecuente de Alcohol</div></div>
+        <div class="card" onclick="toggleItem(this, 'piernas', false)"><div class="card-icon">🦵</div><div class="card-text">Cruzar las Piernas Mucho Tiempo</div></div>
+        <div class="card" onclick="toggleItem(this, 'aire', false)"><div class="card-icon">🥶</div><div class="card-text">Aire / Ventilador Directo al Rostro</div></div>
+        <div class="card" onclick="toggleItem(this, 'dientes', false)"><div class="card-icon">😬</div><div class="card-text">Bruxismo / Apretar Dientes</div></div>
+        <div class="card" onclick="toggleItem(this, 'mochila', false)"><div class="card-icon">🎒</div><div class="card-text">Mochila o Peso Excesivo en Espalda</div></div>
+        <div class="card" onclick="toggleItem(this, 'rapido', false)"><div class="card-icon">⏱️</div><div class="card-text">Comer Muy Rápido / Apurado</div></div>
+        <div class="card" onclick="toggleItem(this, 'agua', false)"><div class="card-icon">💧</div><div class="card-text">Tomar Poca Agua al Día</div></div>
+        <div class="card" onclick="toggleItem(this, 'ajustada', false)"><div class="card-icon">👖</div><div class="card-text">Uso de Ropa Muy Ajustada</div></div>
+        <div class="card" onclick="toggleItem(this, 'pantallas', false)"><div class="card-icon">📱</div><div class="card-text">Celular en la Oscuridad antes de Dormir</div></div>
+        <div class="card" onclick="toggleItem(this, 'sedentarismo', false)"><div class="card-icon">🪑</div><div class="card-text">Más de 6 Horas Sentado sin Pausas</div></div>
+        <div class="card" onclick="toggleItem(this, 'sal', false)"><div class="card-icon">🍔</div><div class="card-text">Exceso de Sal y Comida Chatarra</div></div>
+        <div class="card" onclick="toggleItem(this, 'audifonos', false)"><div class="card-icon">🎧</div><div class="card-text">Audífonos a Volumen Alto Constante</div></div>
+      </div>
+
+      <h2 class="section-title">2. Síntomas Físicos y Malestares Comunes (Riesgo Leve / Moderado)</h2>
+      <div class="grid">
+        <div class="card" onclick="toggleItem(this, 'estomago_dolor', false)"><div class="card-icon">🤢</div><div class="card-text">Dolor de Estómago / Cólicos Leves</div></div>
+        <div class="card" onclick="toggleItem(this, 'gases', false)"><div class="card-icon">💨</div><div class="card-text">Hinchazón Abdominal / Gases</div></div>
+        <div class="card" onclick="toggleItem(this, 'garganta', false)"><div class="card-icon">🧣</div><div class="card-text">Picazón o Irritación en la Garganta</div></div>
+        <div class="card" onclick="toggleItem(this, 'tos_seca', false)"><div class="card-icon">🗣️</div><div class="card-text">Tos Seca Ocasional</div></div>
+        <div class="card" onclick="toggleItem(this, 'pechos_molestia', false)"><div class="card-icon">🩺</div><div class="card-text">Sensibilidad o Dolor Leve en Pechos</div></div>
+        <div class="card" onclick="toggleItem(this, 'brazo_cansancio', false)"><div class="card-icon">💪</div><div class="card-text">Cansancio Muscular en Brazos</div></div>
+        <div class="card" onclick="toggleItem(this, 'piernas_pesadez', false)"><div class="card-icon">🧦</div><div class="card-text">Pesadez en Pantorrillas y Pies</div></div>
+        <div class="card" onclick="toggleItem(this, 'concentracion', false)"><div class="card-icon">🧠</div><div class="card-text">Falta de Concentración / Niebla Mental</div></div>
+        <div class="card" onclick="toggleItem(this, 'mandibula', false)"><div class="card-icon">🦷</div><div class="card-text">Dolor o Rigidez Mandibular</div></div>
+        <div class="card" onclick="toggleItem(this, 'zumbido', false)"><div class="card-icon">🔔</div><div class="card-text">Pitido leve en los Oídos (Tinnitus)</div></div>
+        <div class="card" onclick="toggleItem(this, 'piel', false)"><div class="card-icon">🌋</div><div class="card-text">Brotes en la Piel / Acné leve</div></div>
+        <div class="card" onclick="toggleItem(this, 'calambre', false)"><div class="card-icon">🦵</div><div class="card-text">Calambres Musculares Nocturnos</div></div>
+        <div class="card" onclick="toggleItem(this, 'mareos', false)"><div class="card-icon">🌀</div><div class="card-text">Mareos leves al levantarse rápido</div></div>
+        <div class="card" onclick="toggleItem(this, 'lumbalgia', false)"><div class="card-icon">⚡</div><div class="card-text">Puntada o Tensión en Espalda Baja</div></div>
+        <div class="card" onclick="toggleItem(this, 'cefalea', false)"><div class="card-icon">🤕</div><div class="card-text">Cefalea Tensional / Dolor de Cabeza</div></div>
+        <div class="card" onclick="toggleItem(this, 'fatiga_visual', false)"><div class="card-icon">👁️</div><div class="card-text">Resequedad y Ardor Visual</div></div>
+        <div class="card" onclick="toggleItem(this, 'acidez', false)"><div class="card-icon">🔥</div><div class="card-text">Acidez / Reflujo Ocasional</div></div>
+        <div class="card" onclick="toggleItem(this, 'ansiedad', false)"><div class="card-icon">😰</div><div class="card-text">Irritabilidad y Ansiedad Leve</div></div>
+      </div>
+
+      <h2 class="section-title" style="border-left-color: #ef4444;">3. Signos de Alerta Crítica (🚨 Riesgo Máximo - Urgencia Hospitalaria)</h2>
+      <div class="grid">
+        <div class="card" onclick="toggleItem(this, 'pecho_severo', true)"><div class="card-icon">❤️‍🔥</div><div class="card-text">Dolor Opresivo Intenso en el Pecho (Irradiado a brazo/mandíbula)</div></div>
+        <div class="card" onclick="toggleItem(this, 'respiracion_severa', true)"><div class="card-icon">🫁</div><div class="card-text">Falta de Aire Severa / Asfixia Repentina</div></div>
+        <div class="card" onclick="toggleItem(this, 'neurologico_severo', true)"><div class="card-icon">⚠️</div><div class="card-text">Desmayo Súbito, Confusión o Dificultad para Hablar</div></div>
+        <div class="card" onclick="toggleItem(this, 'hemorragia', true)"><div class="card-icon">🩸</div><div class="card-text">Hemorragia Abundante o Vómito con Sangre</div></div>
+      </div>
+
+      <button class="btn-analyze" onclick="generarReporte()">🔍 Generar Reporte Médico Preventivo y de Triaje</button>
+    </div>
+
+    <!-- Modal de Resultados -->
+    <div id="modalOverlay" class="modal-overlay" onclick="cerrarFuera(event)">
+      <div class="modal-content">
+        <button class="close-btn" onclick="cerrarModal()">&times;</button>
+        <h3 class="result-header">📋 Reporte de Triaje e Informe Clínico</h3>
+        <div id="riskBanner" class="risk-banner"></div>
+        <div id="resDetalles"></div>
+        
+        <button class="btn-routine" onclick="generarRutinaExpress()">✨ Generar Rutina de Alivio Express</button>
+        
+        <div id="routineBox" class="routine-box">
+          <h4>🧘 Rutina Personalizada de Alivio</h4>
+          <div id="routineContent" class="diagnostico-block"></div>
+        </div>
+
+        <div class="warning-footer">
+          ⚠️ <strong>Aviso Importante:</strong> Esta herramienta de análisis brinda información educativa y pautas de ergonomía básica. Si se detectan señales de riesgo máximo, acuda inmediatamente al área de urgencias del hospital más cercano.
+        </div>
+      </div>
+    </div>
+
+    <!-- Módulo de Info & Support -->
+    <div id="support-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); z-index: 99999999; justify-content: center; align-items: center; padding: 20px;">
+        <div style="background: #131b2e; border: 2px solid #3b82f6; padding: 25px; border-radius: 12px; width: 100%; max-width: 400px; color: #fff;">
+            <h3 style="color: #3b82f6; margin-top: 0;">Info & Support Clínico</h3>
+            <p style="font-size: 0.85rem; color: #94a3b8;">Herramienta con fines académicos y preventivos. En caso de emergencia, acuda al centro médico más cercano.</p>
+            <button onclick="cerrarSupport()" style="width: 100%; background: #3b82f6; color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 15px;">Cerrar</button>
+        </div>
+    </div>
+    <button id="btn-support" onclick="abrirSupport()" style="position: fixed; bottom: 20px; right: 20px; background: #3b82f6; color: white; border: none; padding: 10px 15px; border-radius: 30px; font-weight: bold; cursor: pointer; z-index: 999;">ℹ️ Info & Support</button>
+
+  <script>
+    const seleccionados = new Set();
+    const persUrgentes = new Set();
+    let datosPaciente = { name: '', age: 0, gender: '' };
+
     document.getElementById('clinical-form').addEventListener('submit', function(e) {
         e.preventDefault();
         const name = document.getElementById('p-name').value || 'Paciente';
@@ -385,217 +487,28 @@
         const gender = document.getElementById('p-gender').value;
 
         if(age && gender) {
-            // Ocultamos el modal de registro
+            datosPaciente = { name, age, gender };
             document.getElementById('patient-modal').style.display = 'none';
             
-            // Creamos la recomendación según la edad
-            let recomendacionEdad = "";
-            if (age < 18) {
-                recomendacionEdad = "Perfil Adolescente: Se recomienda supervisión, manejo de rutinas de sueño y validación emocional.";
-            } else if (age >= 18 && age <= 35) {
-                recomendacionEdad = "Perfil Adulto Joven: Se sugiere gestión activa del estrés, pausas activas y soporte de redes.";
-            } else {
-                recomendacionEdad = "Perfil Adulto: Se aconseja monitoreo de carga tensional y espacios de desconexión.";
-            }
+            const loadingScreen = document.getElementById('loading-screen');
+            loadingScreen.style.display = 'flex';
 
-            // Muestra una ventana emergente en el celular con el resultado clínico personalizado
-            alert(`¡Triaje iniciado con éxito!\n\nPaciente: ${name} (${age} años, ${gender})\n\n${recomendacionEdad}`);
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                
+                let perfil = "";
+                if (age < 18) {
+                    perfil = "Adolescente";
+                } else if (age >= 18 && age <= 35) {
+                    perfil = "Adulto Joven";
+                } else {
+                    perfil = "Adulto";
+                }
+
+                document.getElementById('info-paciente').innerText = `Paciente: ${name} (${age} años, ${perfil} - ${gender})`;
+            }, 1200);
         }
     });
-</script>
-  
-  <div class="main-container">
-    <header>
-      <div class="logo">🌱 SanaMente PRO</div>
-      <div class="subtitle">Sistema clínico ampliado con triaje preventivo y detección de urgencias médicas</div>
-    </header>
-
-    <h2 class="section-title">1. Hábitos y Estilo de Vida Diario</h2>
-    <div class="grid">
-      <div class="card" onclick="toggleItem(this, 'vapeo', false)">
-        <div class="card-icon">🚬</div>
-        <div class="card-text">Vapeo / Tabaco Frecuente</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'energizantes', false)">
-        <div class="card-icon">⚡</div>
-        <div class="card-text">Energizantes y Cafeína Excesiva</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'desvelo', false)">
-        <div class="card-icon">🌙</div>
-        <div class="card-text">Dormir menos de 6 Horas</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'alcohol', false)">
-        <div class="card-icon">🍺</div>
-        <div class="card-text">Consumo Frecuente de Alcohol</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'piernas', false)">
-        <div class="card-icon">🦵</div>
-        <div class="card-text">Cruzar las Piernas Mucho Tiempo</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'aire', false)">
-        <div class="card-icon">🥶</div>
-        <div class="card-text">Aire / Ventilador Directo al Rostro</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'dientes', false)">
-        <div class="card-icon">😬</div>
-        <div class="card-text">Bruxismo / Apretar Dientes</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'mochila', false)">
-        <div class="card-icon">🎒</div>
-        <div class="card-text">Mochila o Peso Excesivo en Espalda</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'rapido', false)">
-        <div class="card-icon">⏱️</div>
-        <div class="card-text">Comer Muy Rápido / Apurado</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'agua', false)">
-        <div class="card-icon">💧</div>
-        <div class="card-text">Tomar Poca Agua al Día</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'ajustada', false)">
-        <div class="card-icon">👖</div>
-        <div class="card-text">Uso de Ropa Muy Ajustada</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'pantallas', false)">
-        <div class="card-icon">📱</div>
-        <div class="card-text">Celular en la Oscuridad antes de Dormir</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'sedentarismo', false)">
-        <div class="card-icon">🪑</div>
-        <div class="card-text">Más de 6 Horas Sentado sin Pausas</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'sal', false)">
-        <div class="card-icon">🍔</div>
-        <div class="card-text">Exceso de Sal y Comida Chatarra</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'audifonos', false)">
-        <div class="card-icon">🎧</div>
-        <div class="card-text">Audífonos a Volumen Alto Constante</div>
-      </div>
-    </div>
-
-    <h2 class="section-title">2. Síntomas Físicos y Malestares Comunes (Riesgo Leve / Moderado)</h2>
-    <div class="grid">
-      <div class="card" onclick="toggleItem(this, 'estomago_dolor', false)">
-        <div class="card-icon">🤢</div>
-        <div class="card-text">Dolor de Estómago / Cólicos Leves</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'gases', false)">
-        <div class="card-icon">💨</div>
-        <div class="card-text">Hinchazón Abdominal / Gases</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'garganta', false)">
-        <div class="card-icon">🧣</div>
-        <div class="card-text">Picazón o Irritación en la Garganta</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'tos_seca', false)">
-        <div class="card-icon">🗣️</div>
-        <div class="card-text">Tos Seca Ocasional</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'pechos_molestia', false)">
-        <div class="card-icon">🩺</div>
-        <div class="card-text">Sensibilidad o Dolor Leve en Pechos</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'brazo_cansancio', false)">
-        <div class="card-icon">💪</div>
-        <div class="card-text">Cansancio Muscular en Brazos</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'piernas_pesadez', false)">
-        <div class="card-icon">🧦</div>
-        <div class="card-text">Pesadez en Pantorrillas y Pies</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'concentracion', false)">
-        <div class="card-icon">🧠</div>
-        <div class="card-text">Falta de Concentración / Niebla Mental</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'mandibula', false)">
-        <div class="card-icon">🦷</div>
-        <div class="card-text">Dolor o Rigidez Mandibular</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'zumbido', false)">
-        <div class="card-icon">🔔</div>
-        <div class="card-text">Pitido leve en los Oídos (Tinnitus)</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'piel', false)">
-        <div class="card-icon">🌋</div>
-        <div class="card-text">Brotes en la Piel / Acné leve</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'calambre', false)">
-        <div class="card-icon">🦵</div>
-        <div class="card-text">Calambres Musculares Nocturnos</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'mareos', false)">
-        <div class="card-icon">🌀</div>
-        <div class="card-text">Mareos leves al levantarse rápido</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'lumbalgia', false)">
-        <div class="card-icon">⚡</div>
-        <div class="card-text">Puntada o Tensión en Espalda Baja</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'cefalea', false)">
-        <div class="card-icon">🤕</div>
-        <div class="card-text">Cefalea Tensional / Dolor de Cabeza</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'fatiga_visual', false)">
-        <div class="card-icon">👁️</div>
-        <div class="card-text">Resequedad y Ardor Visual</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'acidez', false)">
-        <div class="card-icon">🔥</div>
-        <div class="card-text">Acidez / Reflujo Ocasional</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'ansiedad', false)">
-        <div class="card-icon">😰</div>
-        <div class="card-text">Irritabilidad y Ansiedad Leve</div>
-      </div>
-    </div>
-
-    <h2 class="section-title" style="border-left-color: #ef4444;">3. Signos de Alerta Crítica (🚨 Riesgo Máximo - Urgencia Hospitalaria)</h2>
-    <div class="grid">
-      <div class="card" onclick="toggleItem(this, 'pecho_severo', true)">
-        <div class="card-icon">❤️‍🔥</div>
-        <div class="card-text">Dolor Opresivo Intenso en el Pecho (Irradiado a brazo/mandíbula)</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'respiracion_severa', true)">
-        <div class="card-icon">🫁</div>
-        <div class="card-text">Falta de Aire Severa / Asfixia Repentina</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'neurologico_severo', true)">
-        <div class="card-icon">⚠️</div>
-        <div class="card-text">Desmayo Súbito, Confusión o Dificultad para Hablar</div>
-      </div>
-      <div class="card" onclick="toggleItem(this, 'hemorragia', true)">
-        <div class="card-icon">🩸</div>
-        <div class="card-text">Hemorragia Abundante o Vómito con Sangre</div>
-      </div>
-    </div>
-
-    <button class="btn-analyze" onclick="generarReporte()">🔍 Generar Reporte Médico Preventivo y de Triaje</button>
-  </div>
-
-  <div id="modalOverlay" class="modal-overlay" onclick="cerrarFuera(event)">
-    <div class="modal-content">
-      <button class="close-btn" onclick="cerrarModal()">&times;</button>
-      <h3 class="result-header">📋 Reporte de Triaje e Informe Clínico</h3>
-      <div id="riskBanner" class="risk-banner"></div>
-      <div id="resDetalles"></div>
-      
-      <button class="btn-routine" onclick="generarRutinaExpress()">✨ Generar Rutina de Alivio Express</button>
-      
-      <div id="routineBox" class="routine-box">
-        <h4>🧘 Rutina Personalizada de Alivio</h4>
-        <div id="routineContent" class="diagnostico-block"></div>
-      </div>
-
-      <div class="warning-footer">
-        ⚠️ <strong>Aviso Importante:</strong> Esta herramienta de análisis brinda información educativa y pautas de ergonomía básica. Si se detectan señales de riesgo máximo, acuda inmediatamente al área de urgencias del hospital más cercano.
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const seleccionados = new Set();
-    const urgentes = new Set();
 
     function toggleItem(el, clave, esUrgente) {
       el.classList.toggle('selected');
@@ -605,15 +518,14 @@
 
       if (seleccionados.has(clave)) {
         seleccionados.delete(clave);
-        urgentes.delete(clave);
+        persUrgentes.delete(clave);
       } else {
         seleccionados.add(clave);
-        if (esUrgente) urgentes.add(clave);
+        if (esUrgente) persUrgentes.add(clave);
       }
     }
 
     const solucionesMap = {
-      // Hábitos
       'vapeo': { tipo: 'leve', titulo: '🚬 Vapeo / Tabaco Frecuente', info: 'Irritación de vías respiratorias y vasoconstricción.', consecuencia: 'Oxigenación celular reducida.', solucion: 'Reducción paulatina y aumento de hidratación.' },
       'energizantes': { tipo: 'leve', titulo: '⚡ Energizantes y Cafeína', info: 'Sobrestimulación del sistema nervioso.', consecuencia: 'Taquicardia y gastritis aguda.', solucion: 'Sustituir por infusiones naturales o agua.' },
       'desvelo': { tipo: 'leve', titulo: '🌙 Falta de Sueño', info: 'Interrupción en la síntesis hormonal.', consecuencia: 'Elevación de cortisol y fatiga crónica.', solucion: 'Establecer horarios fijos de descanso.' },
@@ -630,7 +542,6 @@
       'sal': { tipo: 'leve', titulo: '🍔 Exceso de Sal y Chatarra', info: 'Sodio refinado y grasas trans.', consecuencia: 'Retención de líquidos e hipertensión.', solucion: 'Priorizar alimentos frescos y vegetales.' },
       'audifonos': { tipo: 'leve', titulo: '🎧 Audífonos a Volumen Alto', info: 'Exposición a decibeles elevados.', consecuencia: 'Tinnitus y pérdida auditiva.', solucion: 'Aplicar regla del 60/60 de volumen.' },
 
-      // Síntomas comunes
       'estomago_dolor': { tipo: 'leve', titulo: '🤢 Dolor de Estómago / Cólicos Leves', info: 'Inflamación o espasmo leve en tracto digestivo.', consecuencia: 'Gases y malestar estomacal.', solucion: 'Infusión tibia de manzanilla o jengibre y dieta blanda.' },
       'gases': { tipo: 'leve', titulo: '💨 Hinchazón Abdominal / Gases', info: 'Acumulación de aire por digestión pesada.', consecuencia: 'Tensión abdominal pasajera.', solucion: 'Caminatas suaves y evitar bebidas carbonatadas.' },
       'garganta': { tipo: 'leve', titulo: '🧣 Irritación en la Garganta', info: 'Sequedad o inflamación leve de mucosas.', consecuencia: 'Carraspera o molestia al tragar.', solucion: 'Gárgaras con agua tibia y sal, hidratación constante.' },
@@ -650,7 +561,6 @@
       'acidez': { tipo: 'leve', titulo: '🔥 Acidez / Reflujo Ocasional', info: 'Retorno leve de ácidos al esófago.', consecuencia: 'Ardor estomacal temporal.', solucion: 'Evitar acostarse tras comer y reducir irritantes.' },
       'ansiedad': { tipo: 'leve', titulo: '😰 Irritabilidad / Ansiedad Leve', info: 'Estrés acumulado físico y mental.', consecuencia: 'Tensión generalizada e inquietud.', solucion: 'Paseos al aire libre y respiración consciente.' },
 
-      // Urgencias / Riesgo Máximo
       'pecho_severo': { tipo: 'urgente', titulo: '🚨 Dolor Opresivo Intenso en el Pecho', info: 'Posible compromiso cardíaco agudo o síndrome coronario.', consecuencia: 'Riesgo vital inminente que compromete la función cardíaca.', solucion: 'ACUDIR DE URGENCIAS AL HOSPITAL INMEDIATAMENTE. No realizar esfuerzos físicos.' },
       'respiracion_severa': { tipo: 'urgente', titulo: '🚨 Falta de Aire Severa / Asfixia', info: 'Obstrucción grave de vías aéreas, crisis asmática severa o edema pulmonar.', consecuencia: 'Hipoxia severa y falla respiratoria.', solucion: 'LLAMAR A URGENCIAS / HOSPITALIZACIÓN DE INMEDIATO. Mantener al paciente en posición cómoda y semisentada.' },
       'neurologico_severo': { tipo: 'urgente', titulo: '🚨 Desmayo Súbito o Confusión', info: 'Posible evento cerebrovascular (ictus) o síncope grave.', consecuencia: 'Déficit neurológico agudo.', solucion: 'TRASLADO HOSPITALARIO URGENTE. No administrar medicamentos ni líquidos por vía oral.' },
@@ -667,7 +577,7 @@
       routineBox.classList.remove('active');
 
       const total = seleccionados.size;
-      const totalUrgentes = urgentes.size;
+      const totalUrgentes = persUrgentes.size;
 
       if (total === 0) {
         riskBanner.className = 'risk-banner risk-low';
@@ -675,13 +585,13 @@
       } else {
         if (totalUrgentes > 0) {
           riskBanner.className = 'risk-banner risk-high';
-          riskBanner.innerHTML = '🚨 ¡ALERTA CRÍTICA DE RIESGO MÁXIMO! (' + totalUrgentes + ' síntoma(s) grave(s) detectado(s)) - ACUDA AL HOSPITAL URGENTE';
+          riskBanner.innerHTML = `🚨 ¡ALERTA CRÍTICA DE RIESGO MÁXIMO! (${totalUrgentes} síntoma(s) grave(s) detectado(s)) - ACUDA AL HOSPITAL URGENTE`;
         } else if (total <= 4) {
           riskBanner.className = 'risk-banner risk-low';
-          riskBanner.innerHTML = '🟢 Nivel de Riesgo General: BAJO / PREVENTIVO (' + total + ' indicadores)';
+          riskBanner.innerHTML = `🟢 Nivel de Riesgo General: BAJO / PREVENTIVO (${total} indicadores)`;
         } else {
           riskBanner.className = 'risk-banner risk-med';
-          riskBanner.innerHTML = '🟡 Nivel de Riesgo General: MODERADO (' + total + ' indicadores seleccionados)';
+          riskBanner.innerHTML = `🟡 Nivel de Riesgo General: MODERADO (${total} indicadores seleccionados)`;
         }
 
         seleccionados.forEach(clave => {
@@ -707,7 +617,7 @@
       const routineBox = document.getElementById('routineBox');
       const routineContent = document.getElementById('routineContent');
       
-      if (urgentes.size > 0) {
+      if (persUrgentes.size > 0) {
         routineContent.innerHTML = '⚠️ <strong>Atención:</strong> Has seleccionado síntomas de riesgo máximo. Las rutinas de relajación no sustituyen la atención hospitalaria urgente. Acude a un centro médico de inmediato.';
       } else {
         let pasos = "<strong>Paso 1 (Respiración):</strong> Inhala profundo por la nariz contando hasta 4, mantén el aire 4 segundos y exhala lentamente en 6 segundos. Repite 5 veces.<br><br>";
@@ -727,71 +637,20 @@
         cerrarModal();
       }
     }
-  </script>
-  <script>
-function abrirSupport() {
-    document.getElementById('support-modal').style.display = 'flex';
-}
-function cerrarSupport() {
-    document.getElementById('support-modal').style.display = 'none';
-}
-const form = document.getElementById('clinical-form');
-const modal = document.getElementById('patient-modal');
-const loadingScreen = document.getElementById('loading-screen');
 
-form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const name = document.getElementById('p-name').value;
-    const age = parseInt(document.getElementById('p-age').value);
-    const gender = document.getElementById('p-gender').value;
-
-    if(name && age && gender) {
-        modal.style.display = 'none';
-        // Mostrar la pantalla de carga animada
-        loadingScreen.style.display = 'flex';
-
-        setTimeout(() => {
-            loadingScreen.style.display = 'none';
-            
-            let perfil = "";
-            let rec = "";
-            if (age < 18) {
-                perfil = "Adolescente";
-                rec = "Recomendación Clínica: Supervisión de rutinas de descanso, manejo de cargas académicas y refuerzo de validación emocional.";
-            } else if (age >= 18 && age <= 35) {
-                perfil = "Adulto Joven";
-                rec = "Recomendación Clínica: Estrategias activas de mitigación del estrés laboral/universitario e higiene del sueño.";
-            } else {
-                perfil = "Adulto";
-                rec = "Recomendación Clínica: Monitoreo preventivo de presión tensional y espacios regulares de desconexión digital.";
-            }
-
-            document.getElementById('info-paciente').innerHTML = `<b>Paciente:</b> ${name} | <b>Edad:</b> ${age} años (${perfil}) | <b>Género:</b> ${gender}`;
-            document.getElementById('recomendacion-etaria').innerText = rec;
-        }, 1500); // Espera 1.5 segundos simulando el análisis clínico
+    function abrirSupport() {
+        document.getElementById('support-modal').style.display = 'flex';
     }
-});
+    
+    function cerrarSupport() {
+        document.getElementById('support-modal').style.display = 'none';
+    }
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(err => console.log(err));
+        navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW registration failed:', err));
       });
     }
   </script>
-<!-- Módulo de Info & Support -->
-<div id="support-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); z-index: 99999999; justify-content: center; align-items: center; padding: 20px;">
-    <div style="background: #131b2e; border: 2px solid #3b82f6; padding: 25px; border-radius: 12px; width: 100%; max-width: 400px; color: #fff;">
-        <h3 style="color: #3b82f6; margin-top: 0;">Info & Support Clínico</h3>
-        <p style="font-size: 0.85rem; color: #94a3b8;">Herramienta con fines académicos y preventivos. En caso de emergencia, acuda al centro médico más cercano.</p>
-        <button onclick="cerrarSupport()" style="width: 100%; background: #3b82f6; color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 15px;">Cerrar</button>
-    </div>
-</div>
-<button id="btn-support" onclick="abrirSupport()" style="position: fixed; bottom: 20px; right: 20px; background: #3b82f6; color: white; border: none; padding: 10px 15px; border-radius: 30px; font-weight: bold; cursor: pointer; z-index: 999;">ℹ️ Info & Support</button>
-<!-- Pantalla de Carga de IA Médica -->
-<div id="loading-screen" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(11, 15, 25, 0.95); z-index: 99999999; flex-direction: column; justify-content: center; align-items: center; color: #fff; text-align: center; padding: 20px;">
-    <div style="font-size: 2.5rem; margin-bottom: 15px;">🧬</div>
-    <h3 style="color: #10b981; margin: 0 0 10px 0;">Procesando Variables Biométricas...</h3>
-    <p style="font-size: 0.85rem; color: #94a3b8; max-width: 300px;">Cruzando datos etarios con patrones de triaje clínico inteligente.</p>
-</div>
 </body>
 </html>
