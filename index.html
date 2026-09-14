@@ -345,6 +345,50 @@
   </style>
 </head>
 <body>
+  <!-- Ventana de Registro Clínico Inicial (Edad y Género) -->
+<div id="patient-modal" style="background: rgba(11, 15, 25, 0.95); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; justify-content: center; align-items: center;">
+    <div style="background: #131b2e; border: 1px solid #1e293b; padding: 25px; border-radius: 12px; width: 90%; max-width: 400px; color: #f8fafc; font-family: Arial, sans-serif;">
+        <h2 style="color: #10b981; margin-top: 0; font-size: 1.4rem; text-align: center;">SanaMente PRO</h2>
+        <p style="font-size: 0.9rem; color: #94a3b8; text-align: center; margin-bottom: 20px;">Ingrese los datos del paciente para personalizar el triaje clínico.</p>
+        
+        <form id="clinical-form">
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; font-size: 0.85rem; margin-bottom: 5px;">Nombre (Opcional):</label>
+                <input type="text" id="p-name" placeholder="Ej. Paciente" style="width: 100%; padding: 10px; background: #0b0f19; border: 1px solid #334155; color: #fff; border-radius: 6px;">
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; font-size: 0.85rem; margin-bottom: 5px;">Edad (Obligatorio):</label>
+                <input type="number" id="p-age" required placeholder="Ej. 16" style="width: 100%; padding: 10px; background: #0b0f19; border: 1px solid #334155; color: #fff; border-radius: 6px;">
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-size: 0.85rem; margin-bottom: 5px;">Género (Obligatorio):</label>
+                <select id="p-gender" required style="width: 100%; padding: 10px; background: #0b0f19; border: 1px solid #334155; color: #fff; border-radius: 6px;">
+                    <option value="">Seleccione...</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Femenino">Femenino</option>
+                    <option value="Otro">Otro</option>
+                </select>
+            </div>
+
+            <button type="submit" style="width: 100%; background: #10b981; color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 6px; cursor: pointer;">Comenzar Triaje</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Esto hace que al rellenar los datos y hacer click, la ventana se oculte y deje ver la app
+    document.getElementById('clinical-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const age = document.getElementById('p-age').value;
+        const gender = document.getElementById('p-gender').value;
+        if(age && gender) {
+            document.getElementById('patient-modal').style.display = 'none';
+        }
+    });
+</script>
+  
 
   <div class="main-container">
     <header>
