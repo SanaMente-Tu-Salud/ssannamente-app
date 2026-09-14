@@ -735,6 +735,42 @@ function abrirSupport() {
 function cerrarSupport() {
     document.getElementById('support-modal').style.display = 'none';
 }
+const form = document.getElementById('clinical-form');
+const modal = document.getElementById('patient-modal');
+const loadingScreen = document.getElementById('loading-screen');
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('p-name').value;
+    const age = parseInt(document.getElementById('p-age').value);
+    const gender = document.getElementById('p-gender').value;
+
+    if(name && age && gender) {
+        modal.style.display = 'none';
+        // Mostrar la pantalla de carga animada
+        loadingScreen.style.display = 'flex';
+
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            
+            let perfil = "";
+            let rec = "";
+            if (age < 18) {
+                perfil = "Adolescente";
+                rec = "Recomendación Clínica: Supervisión de rutinas de descanso, manejo de cargas académicas y refuerzo de validación emocional.";
+            } else if (age >= 18 && age <= 35) {
+                perfil = "Adulto Joven";
+                rec = "Recomendación Clínica: Estrategias activas de mitigación del estrés laboral/universitario e higiene del sueño.";
+            } else {
+                perfil = "Adulto";
+                rec = "Recomendación Clínica: Monitoreo preventivo de presión tensional y espacios regulares de desconexión digital.";
+            }
+
+            document.getElementById('info-paciente').innerHTML = `<b>Paciente:</b> ${name} | <b>Edad:</b> ${age} años (${perfil}) | <b>Género:</b> ${gender}`;
+            document.getElementById('recomendacion-etaria').innerText = rec;
+        }, 1500); // Espera 1.5 segundos simulando el análisis clínico
+    }
+});
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -751,5 +787,11 @@ function cerrarSupport() {
     </div>
 </div>
 <button id="btn-support" onclick="abrirSupport()" style="position: fixed; bottom: 20px; right: 20px; background: #3b82f6; color: white; border: none; padding: 10px 15px; border-radius: 30px; font-weight: bold; cursor: pointer; z-index: 999;">ℹ️ Info & Support</button>
+<!-- Pantalla de Carga de IA Médica -->
+<div id="loading-screen" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(11, 15, 25, 0.95); z-index: 99999999; flex-direction: column; justify-content: center; align-items: center; color: #fff; text-align: center; padding: 20px;">
+    <div style="font-size: 2.5rem; margin-bottom: 15px;">🧬</div>
+    <h3 style="color: #10b981; margin: 0 0 10px 0;">Procesando Variables Biométricas...</h3>
+    <p style="font-size: 0.85rem; color: #94a3b8; max-width: 300px;">Cruzando datos etarios con patrones de triaje clínico inteligente.</p>
+</div>
 </body>
 </html>
