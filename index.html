@@ -729,11 +729,27 @@
     }
   </script>
   <script>
+function abrirSupport() {
+    document.getElementById('support-modal').style.display = 'flex';
+}
+function cerrarSupport() {
+    document.getElementById('support-modal').style.display = 'none';
+}
+
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').catch(err => console.log(err));
       });
     }
   </script>
+<!-- Módulo de Info & Support -->
+<div id="support-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); z-index: 99999999; justify-content: center; align-items: center; padding: 20px;">
+    <div style="background: #131b2e; border: 2px solid #3b82f6; padding: 25px; border-radius: 12px; width: 100%; max-width: 400px; color: #fff;">
+        <h3 style="color: #3b82f6; margin-top: 0;">Info & Support Clínico</h3>
+        <p style="font-size: 0.85rem; color: #94a3b8;">Herramienta con fines académicos y preventivos. En caso de emergencia, acuda al centro médico más cercano.</p>
+        <button onclick="cerrarSupport()" style="width: 100%; background: #3b82f6; color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 15px;">Cerrar</button>
+    </div>
+</div>
+<button id="btn-support" onclick="abrirSupport()" style="position: fixed; bottom: 20px; right: 20px; background: #3b82f6; color: white; border: none; padding: 10px 15px; border-radius: 30px; font-weight: bold; cursor: pointer; z-index: 999;">ℹ️ Info & Support</button>
 </body>
 </html>
