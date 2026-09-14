@@ -394,30 +394,52 @@
 
 <script>
     document.getElementById('clinical-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const name = document.getElementById('p-name').value || 'Paciente';
-        const age = parseInt(document.getElementById('p-age').value);
-        const gender = document.getElementById('p-gender').value;
+    e.preventDefault();
+    const name = document.getElementById('p-name').value.trim() || 'Paciente';
+    const age = parseInt(document.getElementById('p-age').value);
+    const gender = document.getElementById('p-gender').value;
 
-        if(age && gender) {
-            // Ocultamos el modal de registro
-            document.getElementById('patient-modal').style.display = 'none';
+    if(age && gender) {
+        // 1. Ocultamos el modal de registro clínico
+        document.getElementById('patient-modal').style.display = 'none';
+        
+        // 2. Mostramos la pantalla de carga animada
+        const loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+            loadingScreen.style.display = 'flex';
+        }
+
+        // 3. Simulamos el tiempo de procesamiento clínico (1.5 segundos)
+        setTimeout(() => {
+            if (loadingScreen) {
+                loadingScreen.style.display = 'none';
+            }
             
-            // Creamos la recomendación según la edad
+            let perfil = "";
             let recomendacionEdad = "";
             if (age < 18) {
+                perfil = "Adolescente";
                 recomendacionEdad = "Perfil Adolescente: Se recomienda supervisión, manejo de rutinas de sueño y validación emocional.";
             } else if (age >= 18 && age <= 35) {
+                perfil = "Adulto Joven";
                 recomendacionEdad = "Perfil Adulto Joven: Se sugiere gestión activa del estrés, pausas activas y soporte de redes.";
             } else {
+                perfil = "Adulto";
                 recomendacionEdad = "Perfil Adulto: Se aconseja monitoreo de carga tensional y espacios de desconexión.";
             }
 
-            // Muestra una ventana emergente en el celular con el resultado clínico personalizado
-            alert(`¡Triaje iniciado con éxito!\n\nPaciente: ${name} (${age} años, ${gender})\n\n${recomendacionEdad}`);
-        }
-    });
+            // Muestra una notificación limpia con el resultado integrado
+            alert(`¡Triaje iniciado con éxito!\n\nPaciente: ${name} (${age} años - ${perfil}, ${gender})\n\n${recomendacionEdad}`);
+        }, 1500);
+    }
+});
+
 </script>
+  <!-- Muestra de los datos del paciente activo -->
+<div id="datos-sesion-actual" style="background: var(--card-bg); border: 1px solid var(--primary); padding: 12px 18px; border-radius: 12px; margin: 15px 20px; font-size: 13.5px; color: var(--text); display: none; align-items: center; gap: 8px;">
+    <span>👤</span> <span id="texto-estado-paciente">Aún no se ha registrado ningún paciente.</span>
+</div>
+
     <h2 class="section-title">💬 Espacio de Desahogo y Orientación</h2>
     <div style="background: var(--card-bg); border: 2px solid var(--card-border); padding: 20px; border-radius: 16px; margin-bottom: 30px;">
       <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px;">Cuéntale brevemente a tu guía virtual cómo ha sido tu día o qué te preocupa:</p>
