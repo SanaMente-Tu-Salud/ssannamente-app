@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SanaMente PRO - Sistema Clínico Avanzado</title>
+  <title>SanaMente PRO - Clínica Avanzada</title>
   <style>
     :root {
       --primary: #10b981;
@@ -15,6 +15,7 @@
       --text-muted: #94a3b8;
     }
 
+    /* Modo Claro Manual */
     body.light-mode {
       --bg: #f8fafc;
       --card-bg: #ffffff;
@@ -28,50 +29,49 @@
       margin: 0;
       padding: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      transition: background-color 0.3s, color 0.3s;
     }
 
     body {
       background-color: var(--bg);
       color: var(--text);
       padding: 16px;
-      max-width: 650px;
+      max-width: 600px;
       margin: 0 auto;
+      transition: background 0.3s, color 0.3s;
     }
 
-    /* Barra Superior de Controles Avanzados */
-    .top-controls {
+    /* Barra de Configuración Superior (Idioma y Tema) */
+    .config-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      padding: 10px 16px;
+      padding: 10px 14px;
       border-radius: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       font-size: 13px;
     }
 
-    .control-group {
+    .config-group {
       display: flex;
       gap: 8px;
     }
 
-    .btn-control {
+    .config-btn {
       background: var(--bg);
-      border: 1px solid var(--card-border);
       color: var(--text);
+      border: 1px solid var(--card-border);
       padding: 6px 10px;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 600;
     }
-    .btn-control:hover { border-color: var(--primary); }
 
     header {
       text-align: center;
-      margin-bottom: 24px;
-      padding: 20px 12px;
+      margin-bottom: 20px;
+      padding: 18px 12px;
       background: var(--card-bg);
       border-radius: 16px;
       border: 1px solid var(--card-border);
@@ -95,16 +95,17 @@
       margin-top: 6px;
     }
 
-    /* Contador Dinámico flotante */
+    /* Contador Dinámico en tiempo real */
     .live-counter {
       background: var(--card-bg);
       border: 2px solid var(--primary);
-      padding: 10px 16px;
+      padding: 12px;
       border-radius: 12px;
       text-align: center;
-      font-weight: 700;
+      font-weight: 800;
       margin-bottom: 20px;
       box-shadow: 0 0 15px var(--primary-glow);
+      font-size: 14px;
     }
 
     h2.section-title {
@@ -187,8 +188,8 @@
       font-weight: 800;
     }
 
-    /* Test PHQ-4 y Anamnesis */
-    .box-module {
+    /* Módulos Adicionales (PHQ-4 y Notas) */
+    .module-box {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 16px;
@@ -196,19 +197,19 @@
       margin-top: 24px;
     }
 
-    .box-module h3 {
+    .module-box h3 {
       font-size: 16px;
       color: var(--primary);
       margin-bottom: 10px;
     }
 
-    .phq-question {
+    .phq-text {
       font-size: 13.5px;
       margin-bottom: 8px;
       color: var(--text);
     }
 
-    .phq-options {
+    .phq-opts {
       display: flex;
       gap: 6px;
       margin-bottom: 12px;
@@ -218,8 +219,8 @@
       background: var(--bg);
       border: 1px solid var(--card-border);
       color: var(--text);
-      padding: 6px 10px;
-      font-size: 12px;
+      padding: 6px;
+      font-size: 11.5px;
       border-radius: 6px;
       cursor: pointer;
       flex: 1;
@@ -260,7 +261,7 @@
       background: #ef4444;
       color: white;
       border: none;
-      padding: 12px;
+      padding: 14px;
       border-radius: 12px;
       font-size: 14px;
       font-weight: 800;
@@ -269,10 +270,11 @@
       text-align: center;
       display: block;
       text-decoration: none;
+      box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
     }
 
-    /* Pantalla de Carga IA */
-    #loading-screen {
+    /* Pantalla de Carga de IA */
+    #loadingScreen {
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -295,6 +297,14 @@
       margin-top: 28px;
       border: 1px solid var(--card-border);
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    .result-header {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 14px;
+      text-align: center;
     }
 
     .risk-banner {
@@ -322,14 +332,15 @@
 
     /* Historial Local */
     .history-box {
-      margin-top: 24px;
-      background: var(--card-bg);
+      margin-top: 20px;
+      background: var(--bg);
       border: 1px solid var(--card-border);
-      padding: 14px;
-      border-radius: 12px;
+      padding: 12px;
+      border-radius: 10px;
       font-size: 12px;
+      color: var(--text-muted);
     }
-    .history-item { padding: 4px 0; border-bottom: 1px solid var(--card-border); color: var(--text-muted); }
+    .history-item { padding: 4px 0; border-bottom: 1px solid var(--card-border); }
 
     .warning-footer {
       font-size: 12px;
@@ -345,33 +356,34 @@
 </head>
 <body>
 
-  <!-- Pantalla de Carga de IA simulada -->
-  <div id="loading-screen">
-    <div style="font-size: 3rem; margin-bottom: 15px; animation: pulse 1.2s infinite;">🧠</div>
-    <h3 style="color: var(--primary); margin-bottom: 6px;" id="load-title">Analizando patrones clínicos...</h3>
-    <p style="font-size: 0.85rem; color: var(--text-muted);" id="load-sub">Cruzando hábitos, test PHQ-4 y derivación médica inteligente.</p>
+  <!-- Pantalla de Carga Simulada con IA -->
+  <div id="loadingScreen">
+    <div style="font-size: 3rem; margin-bottom: 15px;">🧠</div>
+    <h3 style="color: var(--primary); margin-bottom: 6px;" id="loadTitle">Analizando patrones clínicos...</h3>
+    <p style="font-size: 0.85rem; color: var(--text-muted);" id="loadSub">Cruzando hábitos, test PHQ-4 y derivación médica inteligente.</p>
   </div>
 
-  <!-- Barra Superior: Idioma y Tema -->
-  <div class="top-controls">
-    <div class="control-group">
-      <button class="btn-control" onclick="cambiarIdioma()" id="btnLang">🌐 ES</button>
-      <button class="btn-control" onclick="cambiarTema()" id="btnTheme">🌙 Tema</button>
+  <!-- Barra de Configuración: Idioma y Tema Manual -->
+  <div class="config-bar">
+    <div class="config-group">
+      <button class="config-btn" onclick="cambiarIdioma()" id="btnLang">🌐 ES</button>
+      <button class="config-btn" onclick="cambiarTema()" id="btnTheme">🌙 Tema Oscuro</button>
     </div>
-    <span style="font-weight: 700; color: var(--primary);" id="lblBrand">SanaMente PRO</span>
+    <span style="font-weight: 700; color: var(--primary);" id="brandName">SanaMente PRO</span>
   </div>
 
   <header>
     <div class="logo">🌱 SanaMente PRO</div>
-    <div class="subtitle" id="subTitleText">Evaluación interactiva avanzada de hábitos y síntomas físicos/mentales</div>
+    <div class="subtitle" id="subHeader">Evaluación interactiva avanzada de hábitos y síntomas físicos/mentales</div>
   </header>
 
-  <!-- Contador Dinámico en tiempo real -->
+  <!-- Contador Dinámico en Tiempo Real -->
   <div class="live-counter" id="liveCounter">
-    📊 Indicadores activos: 0 | Nivel preliminar: Normal
+    📊 Indicadores activos: 0 | Nivel de Riesgo: Normal
   </div>
 
   <h2 class="section-title" id="sec1Title">1. Selecciona tus Hábitos</h2>
+
   <div class="grid">
     <div class="card" onclick="toggleItem(this, 'vapeo')">
       <img class="card-img" src="https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=600&q=80" alt="Vapeo">
@@ -385,10 +397,6 @@
       <img class="card-img" src="https://images.unsplash.com/photo-1511295742362-92c96b124e52?auto=format&fit=crop&w=600&q=80" alt="Desvelo">
       <div class="card-content">🌙 Dormir menos de 6 Horas</div>
     </div>
-    <div class="card" onclick="toggleItem(this, 'alcohol')">
-      <img class="card-img" src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=80" alt="Alcohol">
-      <div class="card-content">🍺 Consumo Frecuente de Alcohol</div>
-    </div>
     <div class="card" onclick="toggleItem(this, 'agua')">
       <img class="card-img" src="https://images.unsplash.com/photo-1548839140-29a749e1bc4e?auto=format&fit=crop&w=600&q=80" alt="Poca Agua">
       <div class="card-content">💧 Tomar Muy Poca Agua al Día</div>
@@ -396,6 +404,7 @@
   </div>
 
   <h2 class="section-title" id="sec2Title">2. Síntomas Presentes</h2>
+
   <div class="sintomas-grid">
     <div class="sintoma-btn" onclick="toggleItem(this, 'concentracion')">🧠 Falta Concentración</div>
     <div class="sintoma-btn" onclick="toggleItem(this, 'mandibula')">😬 Dolor Mandibular</div>
@@ -403,111 +412,111 @@
     <div class="sintoma-btn" onclick="toggleItem(this, 'lumbalgia')">⚡ Puntada en Espalda</div>
   </div>
 
-  <!-- Módulo Tamizaje PHQ-4 (Ansiedad/Estrés) -->
-  <div class="box-module">
-    <h3 id="phqTitle">📋 Tamizaje Rápido (PHQ-4 Estres/Ansiedad)</h3>
-    <div class="phq-question" id="phq1Q">1. Sentirse nervioso, ansioso o con los nervios de punta en los últimos días:</div>
-    <div class="phq-options" data-phq="1">
+  <!-- Cuestionario Clínico Interactivo tipo PHQ-4 -->
+  <div class="module-box">
+    <h3 id="phqHeader">📋 Tamizaje Rápido (PHQ-4 Estrés / Ansiedad)</h3>
+    <div class="phq-text" id="phq1Text">1. Sentirse nervioso, ansioso o con los nervios de punta:</div>
+    <div class="phq-opts" data-q="1">
       <div class="phq-opt" onclick="setPhq(1, 0)">Ninguno (0)</div>
       <div class="phq-opt" onclick="setPhq(1, 1)">Varios días (1)</div>
-      <div class="phq-opt" onclick="setPhq(1, 2)">Más de la mitad (2)</div>
+      <div class="phq-opt" onclick="setPhq(1, 2)">Más mitad (2)</div>
       <div class="phq-opt" onclick="setPhq(1, 3)">Casi todos (3)</div>
     </div>
-    <div class="phq-question" id="phq2Q">2. Incapacidad para dejar de preocuparse o controlar la preocupación:</div>
-    <div class="phq-options" data-phq="2">
+    <div class="phq-text" id="phq2Text">2. Incapacidad para dejar de preocuparse:</div>
+    <div class="phq-opts" data-q="2">
       <div class="phq-opt" onclick="setPhq(2, 0)">Ninguno (0)</div>
       <div class="phq-opt" onclick="setPhq(2, 1)">Varios días (1)</div>
-      <div class="phq-opt" onclick="setPhq(2, 2)">Más de la mitad (2)</div>
+      <div class="phq-opt" onclick="setPhq(2, 2)">Más mitad (2)</div>
       <div class="phq-opt" onclick="setPhq(2, 3)">Casi todos (3)</div>
     </div>
   </div>
 
   <!-- Campo de Notas Clínicas / Anamnesis Libre -->
-  <div class="box-module">
-    <h3 id="notesTitle">📝 Notas Clínicas / Anamnesis Libre</h3>
-    <textarea id="userNotes" placeholder="Escribe aquí observaciones adicionales sobre cómo te sientes, síntomas específicos o contexto..."></textarea>
+  <div class="module-box">
+    <h3 id="notesHeader">📝 Notas Clínicas / Anamnesis Libre</h3>
+    <textarea id="userNotes" placeholder="Escribe aquí tus observaciones o detalles adicionales..."></textarea>
   </div>
 
-  <button class="btn-analyze" onclick="procesarEvaluacion()" id="btnAnalyzeText">🔍 Generar Informe de Triaje Clínico</button>
+  <button class="btn-analyze" onclick="analizarConIA()" id="btnAnalyzeText">🔍 Generar Reporte Médico Preventivo</button>
   
   <!-- Botón de Emergencia Directa -->
-  <a href="tel:106" class="btn-emergency" id="btnEmergText">🚨 Llamada de Urgencia Directa (SAMU / Emergencias)</a>
+  <a href="tel:106" class="btn-emergency" id="btnEmergencyText">🚨 Llamada de Urgencia Directa (SAMU / Emergencias)</a>
 
   <!-- Reporte y Resultados -->
   <div id="resultado" class="result-box">
-    <h3 class="result-header" id="resHeaderTitle">📋 Reporte y Derivación Médica Inteligente</h3>
+    <h3 class="result-header" id="resHeaderTitle">📋 Reporte Preventivo y Derivación Inteligente</h3>
     <div id="riskBanner" class="risk-banner"></div>
     <div id="resDetalles"></div>
     <div id="especialistaBox" class="recomendacion-card" style="border-left-color: #3b82f6;"></div>
-    
-    <!-- Historial Anónimo Local -->
+
+    <!-- Historial Local de Sesiones Anónimas -->
     <div class="history-box">
-      <strong id="histTitle">📂 Historial de Triajes Recientes (Guardado en tu Navegador):</strong>
+      <strong id="histTitle">📂 Historial de Triajes Locales:</strong>
       <div id="historyList"></div>
     </div>
 
     <div class="warning-footer" id="warnFooter">
-      ⚠️ <strong>Aviso Importante:</strong> Esta herramienta brinda recomendaciones preventivas y orientación automatizada.
+      ⚠️ <strong>Aviso Importante:</strong> Esta herramienta brinda recomendaciones preventivas. Consulta a un especialista ante dolor persistente.
     </div>
   </div>
 
   <script>
     const seleccionados = new Set();
     const phqScores = { 1: 0, 2: 0 };
-    let idiomaActual = 'ES';
+    let lang = 'ES';
+    let isDark = true;
 
-    const textos = {
+    const t = {
       ES: {
-        brand: "SanaMente PRO",
-        sub: "Evaluación interactiva avanzada de hábitos y síntomas físicos/mentales",
+        themeDark: "🌙 Tema Oscuro",
+        themeLight: "☀️ Tema Claro",
         sec1: "1. Selecciona tus Hábitos",
         sec2: "2. Síntomas Presentes",
-        phq: "📋 Tamizaje Rápido (PHQ-4 Estrés/Ansiedad)",
+        phq: "📋 Tamizaje Rápido (PHQ-4 Estrés / Ansiedad)",
         notes: "📝 Notas Clínicas / Anamnesis Libre",
-        notesPlace: "Escribe aquí observaciones adicionales...",
-        btnAn: "🔍 Generar Informe de Triaje Clínico",
+        notesPl: "Escribe aquí tus observaciones o detalles adicionales...",
+        btnAn: "🔍 Generar Reporte Médico Preventivo",
         btnEm: "🚨 Llamada de Urgencia Directa (SAMU / Emergencias)",
-        resHead: "📋 Reporte y Derivación Médica Inteligente",
-        hist: "📂 Historial de Triajes Recientes (Guardado en tu Navegador):",
-        warn: "⚠️ Aviso Importante: Esta herramienta brinda recomendaciones preventivas y orientación automatizada."
+        resHead: "📋 Reporte Preventivo y Derivación Inteligente",
+        hist: "📂 Historial de Triajes Locales:",
+        warn: "⚠️ Aviso Importante: Esta herramienta brinda recomendaciones preventivas. Consulta a un especialista ante dolor persistente."
       },
       EN: {
-        brand: "SanaMente PRO",
-        sub: "Advanced interactive evaluation of physical and mental habits/symptoms",
+        themeDark: "🌙 Dark Theme",
+        themeLight: "☀️ Light Theme",
         sec1: "1. Select Your Habits",
         sec2: "2. Present Symptoms",
-        phq: "📋 Quick Screening (PHQ-4 Stress/Anxiety)",
+        phq: "📋 Quick Screening (PHQ-4 Stress / Anxiety)",
         notes: "📝 Clinical Notes / Free Anamnesis",
-        notesPlace: "Write additional notes about how you feel here...",
-        btnAn: "🔍 Generate Clinical Triage Report",
+        notesPl: "Write your observations or extra details here...",
+        btnAn: "🔍 Generate Preventive Medical Report",
         btnEm: "🚨 Direct Emergency Call (SAMU)",
-        resHead: "📋 Report & Smart Medical Referral",
-        hist: "📂 Recent Triage History (Saved Locally):",
-        warn: "⚠️ Important Notice: This tool provides preventive recommendations and automated orientation."
+        resHead: "📋 Preventive Report & Smart Referral",
+        hist: "📂 Local Triage History:",
+        warn: "⚠️ Important Notice: This tool provides preventive recommendations. Consult a specialist for persistent pain."
       }
     };
 
-    function cambiarIdioma() {
-      idiomaActual = idiomaActual === 'ES' ? 'EN' : 'ES';
-      document.getElementById('btnLang').innerText = idiomaActual === 'ES' ? '🌐 ES' : '🌐 EN';
-      document.getElementById('lblBrand').innerText = textos[idiomaActual].brand;
-      document.getElementById('subTitleText').innerText = textos[idiomaActual].sub;
-      document.getElementById('sec1Title').innerText = textos[idiomaActual].sec1;
-      document.getElementById('sec2Title').innerText = textos[idiomaActual].sec2;
-      document.getElementById('phqTitle').innerText = textos[idiomaActual].phq;
-      document.getElementById('notesTitle').innerText = textos[idiomaActual].notes;
-      document.getElementById('userNotes').placeholder = textos[idiomaActual].notesPlace;
-      document.getElementById('btnAnalyzeText').innerText = textos[idiomaActual].btnAn;
-      document.getElementById('btnEmergText').innerText = textos[idiomaActual].btnEm;
-      document.getElementById('resHeaderTitle').innerText = textos[idiomaActual].resHead;
-      document.getElementById('histTitle').innerText = textos[idiomaActual].hist;
-      document.getElementById('warnFooter').innerHTML = textos[idiomaActual].warn;
+    function cambiarTema() {
+      isDark = !isDark;
+      document.body.classList.toggle('light-mode');
+      document.getElementById('btnTheme').innerText = isDark ? t[lang].themeDark : t[lang].themeLight;
     }
 
-    function cambiarTema() {
-      document.body.classList.toggle('light-mode');
-      const isLight = document.body.classList.contains('light-mode');
-      document.getElementById('btnTheme').innerText = isLight ? '☀️ Tema' : '🌙 Tema';
+    function cambiarIdioma() {
+      lang = lang === 'ES' ? 'EN' : 'ES';
+      document.getElementById('btnLang').innerText = lang === 'ES' ? '🌐 ES' : '🌐 EN';
+      document.getElementById('btnTheme').innerText = isDark ? t[lang].themeDark : t[lang].themeLight;
+      document.getElementById('sec1Title').innerText = t[lang].sec1;
+      document.getElementById('sec2Title').innerText = t[lang].sec2;
+      document.getElementById('phqHeader').innerText = t[lang].phq;
+      document.getElementById('notesHeader').innerText = t[lang].notes;
+      document.getElementById('userNotes').placeholder = t[lang].notesPl;
+      document.getElementById('btnAnalyzeText').innerText = t[lang].btnAn;
+      document.getElementById('btnEmergencyText').innerText = t[lang].btnEm;
+      document.getElementById('resHeaderTitle').innerText = t[lang].resHead;
+      document.getElementById('histTitle').innerText = t[lang].hist;
+      document.getElementById('warnFooter').innerHTML = t[lang].warn;
     }
 
     function toggleItem(el, clave) {
@@ -517,51 +526,51 @@
       } else {
         seleccionados.add(clave);
       }
-      actualizarContadorDinamico();
+      actualizarContador();
     }
 
     function setPhq(pregunta, valor) {
       phqScores[pregunta] = valor;
-      const container = document.querySelector(`[data-phq="${pregunta}"]`);
+      const container = document.querySelector(`[data-q="${pregunta}"]`);
       container.querySelectorAll('.phq-opt').forEach((opt, idx) => {
         if(idx === valor) opt.classList.add('selected');
         else opt.classList.remove('selected');
       });
+      actualizarContador();
     }
 
-    function actualizarContadorDinamico() {
+    function actualizarContador() {
       const total = seleccionados.size;
       const phqTotal = phqScores[1] + phqScores[2];
-      let nivel = "Normal";
-      if (total >= 3 || phqTotal >= 3) nivel = "Moderado / Precaución";
-      if (total >= 5 || phqTotal >= 5) nivel = "Elevado / Atención";
-      
-      document.getElementById('liveCounter').innerText = `📊 Indicadores activos: ${total} | Puntaje PHQ-4: ${phqTotal} | Nivel: ${nivel}`;
+      let riesgo = "Normal";
+      if (total >= 3 || phqTotal >= 3) riesgo = "Moderado";
+      if (total >= 5 || phqTotal >= 5) riesgo = "Elevado";
+
+      document.getElementById('liveCounter').innerText = `📊 Indicadores activos: ${total} | PHQ-4: ${phqTotal} | Riesgo: ${riesgo}`;
     }
 
-    const solucionesMap = {
-      'vapeo': { titulo: '🚬 Vapeo / Cigarrillo', texto: 'Provoca vasoconstricción y menor oxigenación tisular. Solución: Reducción progresiva e hidratación constante.', especial: 'Neumología / Medicina General' },
-      'energizantes': { titulo: '⚡ Energizantes / Cafeína', texto: 'Sobrestimula el sistema nervioso central. Solución: Reemplazar por infusiones naturales.', especial: 'Cardiología / Nutrición' },
-      'desvelo': { titulo: '🌙 Dormir menos de 6 horas', texto: 'Eleva el cortisol y fatiga cognitiva. Solución: Establecer horarios fijos de descanso.', especial: 'Medicina del Sueño / Neurología' },
-      'alcohol': { titulo: '🍺 Consumo de Alcohol', texto: 'Deshidratación celular y fatiga hepática. Solución: Aumentar consumo de agua.', especial: 'Medicina General' },
-      'agua': { titulo: '💧 Tomar Poca Agua', texto: 'Produce fatiga y sequedad celular. Solución: Beber de 1.5 a 2 litros diarios.', especial: 'Nutrición' },
-      'concentracion': { titulo: '🧠 Falta de Concentración', texto: 'Saturación cognitiva. Solución: Aplicar método Pomodoro y descansos activos.', especial: 'Psicología' },
-      'mandibula': { titulo: '😬 Dolor Mandibular', texto: 'Bruxismo por tensión o estrés. Solución: Masajes circulares suaves y compresas tibias.', especial: 'Odontología / Maxilofacial' },
-      'palpitaciones': { titulo: '💗 Latidos Acelerados', texto: 'Posible respuesta ansiosa o estimulantes. Solución: Respiración diafragmática 4-7-8.', especial: 'Cardiología' },
-      'lumbalgia': { titulo: '⚡ Puntada en Espalda', texto: 'Tensión postural o muscular. Solución: Estiramientos suaves y revisión ergonómica.', especial: 'Traumatología / Fisioterapia' }
+    const mapaSoluciones = {
+      'vapeo': { titulo: '🚬 Vapeo / Cigarrillo', texto: 'Provoca vasoconstricción y menor oxigenación. Solución: Reducción progresiva e hidratación.', espec: 'Neumología' },
+      'energizantes': { titulo: '⚡ Energizantes / Cafeína', texto: 'Sobrestimula el sistema nervioso. Solución: Reemplazar por infusiones naturales.', espec: 'Cardiología' },
+      'desvelo': { titulo: '🌙 Dormir menos de 6 Horas', texto: 'Eleva el cortisol y fatiga cognitiva. Solución: Horarios fijos de descanso.', espec: 'Neurología' },
+      'agua': { titulo: '💧 Tomar Poca Agua', texto: 'Produce deshidratación celular. Solución: Beber entre 1.5 y 2 litros diarios.', espec: 'Nutrición' },
+      'concentracion': { titulo: '🧠 Falta de Concentración', texto: 'Saturación mental. Solución: Aplicar método Pomodoro y descansos activos.', espec: 'Psicología' },
+      'mandibula': { titulo: '😬 Dolor Mandibular', texto: 'Bruxismo por tensión o estrés. Solución: Masajes circulares y compresas tibias.', espec: 'Odontología' },
+      'palpitaciones': { titulo: '💗 Latidos Acelerados', texto: 'Posible respuesta ansiosa. Solución: Respiración diafragmática 4-7-8.', espec: 'Cardiología' },
+      'lumbalgia': { titulo: '⚡ Puntada en Espalda', texto: 'Tensión postural. Solución: Estiramientos suaves y ergonomía.', espec: 'Traumatología' }
     };
 
-    function procesarEvaluacion() {
-      const loading = document.getElementById('loading-screen');
+    function analizarConIA() {
+      const loading = document.getElementById('loadingScreen');
       loading.style.display = 'flex';
 
       setTimeout(() => {
         loading.style.display = 'none';
-        generarReporteReal();
+        generarReporteFinal();
       }, 1200);
     }
 
-    function generarReporteReal() {
+    function generarReporteFinal() {
       const resContainer = document.getElementById('resultado');
       const detalles = document.getElementById('resDetalles');
       const riskBanner = document.getElementById('riskBanner');
@@ -574,7 +583,7 @@
 
       if (total === 0 && phqTotal === 0 && !notas.trim()) {
         riskBanner.className = 'risk-banner risk-low';
-        riskBanner.innerHTML = '⚠️ Por favor selecciona algún indicador, responde el test o escribe notas.';
+        riskBanner.innerHTML = '⚠️ Por favor selecciona al menos un hábito, responde el test o escribe una nota.';
         resContainer.style.display = 'block';
         return;
       }
@@ -590,66 +599,64 @@
         riskBanner.innerHTML = '🔴 Nivel de Riesgo Preventivo: ELEVADO';
       }
 
-      let especialistaSugerido = "Medicina General / Prevención";
+      let especialista = "Medicina General";
 
       seleccionados.forEach(clave => {
-        if (solucionesMap[clave]) {
-          const item = solucionesMap[clave];
+        if (mapaSoluciones[clave]) {
+          const item = mapaSoluciones[clave];
           const div = document.createElement('div');
           div.className = 'recomendacion-card';
           div.innerHTML = `<h4>${item.titulo}</h4><p>${item.texto}</p>`;
           detalles.appendChild(div);
-          especialistaSugerido = item.especial;
+          especialista = item.espec;
         }
       });
 
       if (phqTotal >= 3) {
         const divPhq = document.createElement('div');
         divPhq.className = 'recomendacion-card';
-        divPhq.innerHTML = `<h4>📋 Alerta de Tamizaje (PHQ-4: ${phqTotal})</h4><p>Se detectaron indicios significativos de estrés o ansiedad. Se recomienda apoyo psicológico.</p>`;
+        divPhq.innerHTML = `<h4>📋 Alerta Tamizaje (PHQ-4: ${phqTotal})</h4><p>Se detectaron marcadores de estrés o ansiedad elevados. Se sugiere apoyo psicológico.</p>`;
         detalles.appendChild(divPhq);
-        especialistaSugerido = "Psicología Clínica / Psiquiatría";
+        especialista = "Psicología Clínica";
       }
 
       if (notas.trim()) {
         const divNotas = document.createElement('div');
         divNotas.className = 'recomendacion-card';
-        divNotas.innerHTML = `<h4>📝 Anamnesis / Notas Registradas</h4><p>${notas}</p>`;
+        divNotas.innerHTML = `<h4>📝 Anamnesis / Observaciones</h4><p>${notas}</p>`;
         detalles.appendChild(divNotas);
       }
 
-      especBox.innerHTML = `<h4>🩺 Derivación Médica Inteligente</h4><p>Basado en tus selecciones y test, el especialista sugerido para una valoración profunda es: <strong>${especialistaSugerido}</strong>.</p>`;
+      especBox.innerHTML = `<h4>🩺 Derivación Médica Inteligente</h4><p>Especialista sugerido para evaluación: <strong>${especialista}</strong>.</p>`;
 
-      // Guardar en Historial Local (localStorage)
-      guardarEnHistorial(total, phqTotal);
+      guardarHistorialLocal(total, phqTotal);
 
       resContainer.style.display = 'block';
       resContainer.scrollIntoView({ behavior: 'smooth' });
     }
 
-    function guardarEnHistorial(habitosCount, phqVal) {
-      const fecha = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      const historial = JSON.parse(localStorage.getItem('sanamente_history') || '[]');
-      historial.unshift(`🕒 ${fecha} - Hábitos: ${habitosCount}, PHQ-4: ${phqVal}`);
-      if (historial.length > 3) historial.pop(); // Mantener solo los últimos 3
-      localStorage.setItem('sanamente_history', JSON.stringify(historial));
-      mostrarHistorial();
+    function guardarHistorialLocal(habitos, phq) {
+      const hora = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const hist = JSON.parse(localStorage.getItem('sanamente_historial') || '[]');
+      hist.unshift(`🕒 ${hora} - Hábitos: ${habitos}, PHQ-4: ${phq}`);
+      if (hist.length > 3) hist.pop();
+      localStorage.setItem('sanamente_historial', JSON.stringify(hist));
+      cargarHistorialLocal();
     }
 
-    function mostrarHistorial() {
-      const historial = JSON.parse(localStorage.getItem('sanamente_history') || '[]');
-      const listDiv = document.getElementById('historyList');
-      listDiv.innerHTML = '';
-      historial.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'history-item';
-        div.innerText = item;
-        listDiv.appendChild(div);
+    function cargarHistorialLocal() {
+      const hist = JSON.parse(localStorage.getItem('sanamente_historial') || '[]');
+      const list = document.getElementById('historyList');
+      list.innerHTML = '';
+      hist.forEach(el => {
+        const d = document.createElement('div');
+        d.className = 'history-item';
+        d.innerText = el;
+        list.appendChild(d);
       });
     }
 
-    // Cargar historial al iniciar
-    mostrarHistorial();
+    cargarHistorialLocal();
   </script>
 </body>
 </html>
