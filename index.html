@@ -377,16 +377,35 @@
         </div>
     </div>
 
-    <script>
-        document.getElementById('clinical-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const age = document.getElementById('p-age').value;
-            const gender = document.getElementById('p-gender').value;
-            if(age && gender) {
-                document.getElementById('patient-modal').style.display = 'none';
+<script>
+    document.getElementById('clinical-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('p-name').value || 'Paciente';
+        const age = parseInt(document.getElementById('p-age').value);
+        const gender = document.getElementById('p-gender').value;
+
+        if(age && gender) {
+            // Ocultamos el modal de registro
+            document.getElementById('patient-modal').style.display = 'none';
+            
+            // Creamos una recomendación personalizada basada en la edad
+            let recomendacionEdad = "";
+            if (age < 18) {
+                recomendacionEdad = "Perfil Adolescente: Se recomienda supervisión de tutor, manejo de rutinas de sueño y validación emocional constante.";
+            } else if (age >= 18 && age <= 35) {
+                recomendacionEdad = "Perfil Adulto Joven: Se sugiere gestión activa del estrés académico/laboral, pausas activas y soporte de redes cercanas.";
+            } else {
+                recomendacionEdad = "Perfil Adulto: Se aconseja monitoreo de carga tensional, espacios de desconexión y evaluación médica preventiva.";
             }
-        });
-    </script>
+
+            // Mostramos un mensaje de bienvenida personalizado en la consola o un alert amigable
+            console.log(`Paciente: ${name}, Edad: ${age}, Género: ${gender}`);
+            console.log(recomendacionEdad);
+            
+            // Opcional: Si tienes un espacio en tu app para mostrar mensajes, puedes inyectarlo aquí.
+        }
+    });
+</script>
   
   <div class="main-container">
     <header>
