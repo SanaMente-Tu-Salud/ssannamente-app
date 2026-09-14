@@ -6,6 +6,15 @@
   <title>SanaMente PRO - Triaje y Diagnóstico Extendido</title>
   <link rel="manifest" href="manifest.json">
   <style>
+        /* Estilos para el Modo Claro */
+    body.light-mode {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --card-border: #cbd5e1;
+      --text: #0f172a;
+      --text-muted: #64748b;
+    }
+
     :root {
       --primary: #10b981;
       --primary-glow: rgba(16, 185, 129, 0.4);
@@ -405,6 +414,12 @@
 </script>
   
   <div class="main-container">
+  <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+    <button onclick="toggleTema()" style="background: var(--card-bg); border: 2px solid var(--primary); color: var(--text); padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; box-shadow: 0 0 10px var(--primary-glow);">
+      🌓 Cambiar Tema
+    </button>
+  </div>
+
     <header>
         <!-- Contador Dinámico en Tiempo Real -->
   <div id="liveCounter" style="background: var(--card-bg); border: 2px solid var(--primary); padding: 12px; border-radius: 12px; text-align: center; font-weight: 800; margin-bottom: 20px; box-shadow: 0 0 15px var(--primary-glow); font-size: 14px; color: #f8fafc;">
@@ -742,8 +757,9 @@
         cerrarModal();
       }
     }
-  </script>
-  <script>
+    function toggleTema() {
+      document.body.classList.toggle('light-mode');
+    }
 function abrirSupport() {
     document.getElementById('support-modal').style.display = 'flex';
 }
