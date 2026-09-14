@@ -1,0 +1,15 @@
+{
+  "name": "SanaMente PRO",
+  "short_name": "SanaMente",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0b0f19",
+  "theme_color": "#10b981",
+  "icons": [
+    {
+      "src": "https://img.icons8.com/color/512/experimental-heart-health-color.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
