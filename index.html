@@ -388,21 +388,18 @@
             // Ocultamos el modal de registro
             document.getElementById('patient-modal').style.display = 'none';
             
-            // Creamos una recomendación personalizada basada en la edad
+            // Creamos la recomendación según la edad
             let recomendacionEdad = "";
             if (age < 18) {
-                recomendacionEdad = "Perfil Adolescente: Se recomienda supervisión de tutor, manejo de rutinas de sueño y validación emocional constante.";
+                recomendacionEdad = "Perfil Adolescente: Se recomienda supervisión, manejo de rutinas de sueño y validación emocional.";
             } else if (age >= 18 && age <= 35) {
-                recomendacionEdad = "Perfil Adulto Joven: Se sugiere gestión activa del estrés académico/laboral, pausas activas y soporte de redes cercanas.";
+                recomendacionEdad = "Perfil Adulto Joven: Se sugiere gestión activa del estrés, pausas activas y soporte de redes.";
             } else {
-                recomendacionEdad = "Perfil Adulto: Se aconseja monitoreo de carga tensional, espacios de desconexión y evaluación médica preventiva.";
+                recomendacionEdad = "Perfil Adulto: Se aconseja monitoreo de carga tensional y espacios de desconexión.";
             }
 
-            // Mostramos un mensaje de bienvenida personalizado en la consola o un alert amigable
-            console.log(`Paciente: ${name}, Edad: ${age}, Género: ${gender}`);
-            console.log(recomendacionEdad);
-            
-            // Opcional: Si tienes un espacio en tu app para mostrar mensajes, puedes inyectarlo aquí.
+            // Muestra una ventana emergente en el celular con el resultado clínico personalizado
+            alert(`¡Triaje iniciado con éxito!\n\nPaciente: ${name} (${age} años, ${gender})\n\n${recomendacionEdad}`);
         }
     });
 </script>
